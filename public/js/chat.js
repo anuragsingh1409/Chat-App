@@ -10,6 +10,8 @@ const $messages = document.querySelector('#messages')
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
 
+const {username , room} = Qs.parse(location.search,{ ignoreQueryPrefix: true })
+
 socket.on('message',(message)=>{
     console.log(message)
 
@@ -68,4 +70,12 @@ document.querySelector('#send-location').addEventListener('click',()=>{
         })
        $sendLocationButton.removeAttribute('disabled')
     })
+}) 
+
+socket.emit('join',{username , room},(error)=>{
+    if(error)
+    {
+        alert(error)
+        location.href = '/'
+    }
 })
